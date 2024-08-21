@@ -19,14 +19,13 @@ const App = () => {
               colorPrimary: "#000000",
               itemSelectedBg: "#cccccc",
               algorithm: true,
-            },
+            }
           }
         }
       }>
         <Layout>
           <Sider><Navbar /></Sider>
-          
-          <Content>
+          <Content style={{padding: "20px"}}>
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="todo">

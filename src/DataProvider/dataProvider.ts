@@ -1,7 +1,11 @@
-class DataProvider{
+import axios from "axios";
+
+console.log(process.env)
+
+export class DataProvider{
   
-  get()
+  get(type:string)
   {
-    
+    return axios.get(`${process.env.REACT_APP_API_URL}/${type}`);
   }
 }
