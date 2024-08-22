@@ -11,9 +11,9 @@ const Navbar = ()=>{
 
   const items: MenuItem[] = [
     { key: "/", icon: <DashboardOutlined />, label: 'Dashboard' },
-    { key: "/todo", icon: <ContainerOutlined />, label: 'Todo', children: [
-      { key: "/todo/list", icon: <UnorderedListOutlined />, label: 'List' },
-      { key: "/todo/create", icon: <PlusOutlined />, label: 'Create' }
+    { key: "/todos", icon: <ContainerOutlined />, label: 'Todo', children: [
+      { key: "/todos/list", icon: <UnorderedListOutlined />, label: 'List' },
+      { key: "/todos/create", icon: <PlusOutlined />, label: 'Create' }
     ] },
     
   ];
@@ -31,7 +31,7 @@ const Navbar = ()=>{
       onClick={onClick}
       // style={{ width: 256 }}
       defaultSelectedKeys={[pathname]}
-      defaultOpenKeys={["/todo"]}
+      defaultOpenKeys={["/todos"]}
       mode="inline"
       items={items}
     />

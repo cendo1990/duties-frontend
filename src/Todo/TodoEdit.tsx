@@ -1,7 +1,6 @@
 import { Component, FC } from "react";
 import { DataProvider } from "../DataProvider/dataProvider";
 import { Button, Form, Input, message } from "antd";
-import { useNavigate } from "react-router";
 
 interface DataType {
   id?: number,
@@ -34,23 +33,20 @@ interface CustomizedFormProps {
 
 const CustomizedForm: FC<CustomizedFormProps> = ({ onChange, onSubmit, fields, openNotification, dataProvider, state }) => {
   const [form] = Form.useForm();
-  const navigate = useNavigate();
 
-  const createData = (data:any)=>{
-    dataProvider.createOne("todos", data).then(()=>{
+  const updateData = (data:any)=>{
+    dataProvider.updateOne("todos", data).then(()=>{
       onSubmit(data);
-      navigate("/todos/list")
     }).catch((error:any)=>{
-      console.log("createData error", error, form.getFieldsValue());
-      openNotification({message: "Create Failed"}, "error");
+      console.log("updateData error", error, form.getFieldsValue());
+      openNotification({message: "Update Failed"}, "error");
     })
   }
   
   const onClick = ()=>{
     form.validateFields().then((data:any)=>{
       console.log("onClick validateFields", data, form.getFieldsValue());
-      createData(form.getFieldsValue());
-
+      updateData(form.getFieldsValue());
     }).catch((error:any)=>{
       console.log("onClick validateFields error", error, form.getFieldsValue());
       openNotification({message: "Validation Failed"}, "error");
@@ -60,7 +56,7 @@ const CustomizedForm: FC<CustomizedFormProps> = ({ onChange, onSubmit, fields, o
   return (
     <Form
       form={form}
-      name={`create-form-todos`}
+      name={`edit-form-todos`}
       fields={fields}
       onFieldsChange={(_, allFields) => {
         onChange(allFields);
@@ -87,7 +83,7 @@ const CustomizedForm: FC<CustomizedFormProps> = ({ onChange, onSubmit, fields, o
   );
 }
 
-class TodoCreate extends Component<{openNotification: Function}, StateParams>{
+class TodoEdit extends Component<{openNotification: Function}, StateParams>{
   dataProvider:DataProvider;
   openNotification: Function;
 
@@ -96,7 +92,7 @@ class TodoCreate extends Component<{openNotification: Function}, StateParams>{
     this.dataProvider = new DataProvider();
     this.openNotification = props.openNotification;
     this.state = {
-      data : [{name:"name"}],
+      data : [{name:"id"}, {name:"name"}],
       id: this.getSelectedID(window.location),
       loading: false,
       hasTouched: false
@@ -124,8 +120,33 @@ class TodoCreate extends Component<{openNotification: Function}, StateParams>{
     return fieldData;
   }
 
+  fetchData = ()=>{
+    this.setState({loading: true})    
+    this.dataProvider.getOne("todos", this.state.id).then((response)=>{
+      console.log("DataProvider get", response);
+      if( response.status >= 200 && response.status < 400 && !response?.data?.code && response?.data?.data )
+      {
+        let resData = response?.data?.data;
+        let fieldData:FieldData[] = this.convertDataObjToFieldData(resData);
+        this.setState({
+          data: fieldData,
+          loading: false,
+        });
+      }
+      else
+      {
+        console.log(response.status);
+        this.openNotification("top", "500", "error");
+      }
+    }).catch((error)=>{
+      console.log(error);
+      this.openNotification({message: `Error status: ${error.response.status}`}, "error");
+    });
+  }
+
   componentDidMount(){
     console.log("TodoEdit componentDidMount");
+    this.fetchData();
   }
 
   render() {
@@ -136,7 +157,7 @@ class TodoCreate extends Component<{openNotification: Function}, StateParams>{
           this.setState({hasTouched: true});
         }}
         onSubmit={(data:any)=>{
-          this.openNotification({message: "Create completed"});
+          this.openNotification({message: "Update completed"});
           let fieldData:FieldData[] = this.convertDataObjToFieldData(data);
           this.setState({data:fieldData, hasTouched: false});
         }}
@@ -148,4 +169,4 @@ class TodoCreate extends Component<{openNotification: Function}, StateParams>{
   }
 }
 
-export default TodoCreate;
+export default TodoEdit;
