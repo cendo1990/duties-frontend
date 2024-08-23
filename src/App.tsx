@@ -2,15 +2,29 @@ import { ConfigProvider, Layout, notification } from "antd";
 import { Route, Routes } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 import Navbar from "./Common/Navbar";
-import TodoList from "./Todo/TodoList";
-import TodoCreate from "./Todo/TodoCreate";
 import { Content } from "antd/es/layout/layout";
 import Dashboard from "./Common/Dashboard";
-import TodoEdit from "./Todo/TodoEdit";
-import { ArgsProps, NotificationPlacement } from "antd/es/notification/interface";
+import { ArgsProps } from "antd/es/notification/interface";
 import merge from "lodash.merge";
+import TodoList from "./Todo/TodoList";
+import TodoEdit from "./Todo/TodoEdit";
+import TodoCreate from "./Todo/TodoCreate";
+import BasicList from "./Common/Components/BasicList";
+import BasicCreate from "./Common/Components/BasicCreate";
+import BasicEdit from "./Common/Components/BasicEdit";
+import React from "react";
 
 const { Sider } = Layout;
+
+export const routesData:any[] = [
+  {
+    resourceType: "todos", 
+    label: "Todo", 
+    list: TodoList,
+    create: TodoCreate,
+    edit: TodoEdit,
+  }
+];
 
 const App = () => {
   const [api, contextHolder] = notification.useNotification();
@@ -59,11 +73,24 @@ const App = () => {
             {contextHolder}
             <Routes>
               <Route path="/" element={<Dashboard />} />
-              <Route path="todos">
-                <Route index={true} path="list" element={<TodoList openNotification={openNotification} />} />
-                <Route path="create" element={<TodoCreate openNotification={openNotification} />} />
-                <Route path="edit/:id" element={<TodoEdit openNotification={openNotification} />} />
-              </Route>
+              {
+                routesData.map((obj)=>{
+                  let listElement = typeof obj?.list === "undefined" || obj?.list === false ? undefined : typeof obj?.list == "function" ? obj?.list : BasicList;
+                  let createElement = typeof obj?.create === "undefined" || obj?.create === false ? undefined : typeof obj?.create == "function" ? obj?.create : BasicCreate;
+                  let editElement = typeof obj?.edit === "undefined" || obj?.edit === false ? undefined : typeof obj?.edit == "function" ? obj?.edit : BasicEdit;
+                  console.log("App map", obj.resourceType, listElement, createElement, editElement);
+                  if( listElement || createElement || editElement )
+                  {
+                    return (
+                      <Route key={obj.resourceType} path={obj.resourceType}>
+                        { listElement ? <Route index={true} path="list" element={React.createElement(listElement, {resourceType: obj.resourceType, openNotification: openNotification})} /> : undefined }
+                        { createElement ? <Route index={!listElement ? true : false} path="create" element={React.createElement(createElement, {resourceType: obj.resourceType, openNotification: openNotification})} /> : undefined }
+                        { editElement ? <Route path="edit/:id" element={React.createElement(editElement, {resourceType: obj.resourceType, openNotification: openNotification})} /> : undefined }
+                      </Route>
+                    );
+                  }
+                })
+              }
             </Routes>
           </Content>
         </Layout>
