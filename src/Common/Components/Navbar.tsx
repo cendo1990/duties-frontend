@@ -1,7 +1,7 @@
 import { ContainerOutlined, DashboardOutlined, PlusOutlined, UnorderedListOutlined } from "@ant-design/icons";
 import { Menu, MenuProps } from "antd";
 import { useLocation, useNavigate } from "react-router";
-import { routesData } from "../App";
+import { routesData } from "../../App";
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -30,7 +30,7 @@ const Navbar = ()=>{
     return null;
   }
 
-  const routesItems = routesData.map((obj)=>{
+  const routesItems = routesData.map((obj:any)=>{
     return getResourceRouteItems(obj);
   })
 
@@ -53,6 +53,7 @@ const Navbar = ()=>{
       // style={{ width: 256 }}
       defaultSelectedKeys={[pathname]}
       defaultOpenKeys={["/todos"]}
+      selectedKeys={[pathname]}
       mode="inline"
       items={items}
     />

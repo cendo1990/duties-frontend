@@ -1,9 +1,9 @@
 import { ConfigProvider, Layout, notification } from "antd";
 import { Route, Routes } from "react-router";
 import { BrowserRouter } from "react-router-dom";
-import Navbar from "./Common/Navbar";
+import Navbar from "./Common/Components/Navbar";
 import { Content } from "antd/es/layout/layout";
-import Dashboard from "./Common/Dashboard";
+import Dashboard from "./Common/Components/Dashboard";
 import { ArgsProps } from "antd/es/notification/interface";
 import merge from "lodash.merge";
 import TodoList from "./Todo/TodoList";

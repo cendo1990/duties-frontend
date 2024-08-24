@@ -7,7 +7,10 @@ class TodoCreate extends BasicCreate
     {
       name:"name",
       label:"Name",
-      rules:[{ required: true, message: 'Name is required!' }]
+      rules:[
+        { required: true, message: "Name is required!" }, 
+        { max: 20, message: "Name should be less than 20 characters" }
+      ]
     }
   ];
 }

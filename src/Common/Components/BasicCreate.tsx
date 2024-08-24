@@ -2,7 +2,7 @@ import { Component, FC } from "react";
 import { DataProvider } from "../../DataProvider/dataProvider";
 import { Button, Form, FormItemProps, Input } from "antd";
 import { useNavigate } from "react-router";
-import { ResourceRouteItemProps } from "./ResourceRoute";
+import { ResourceRouteItemProps } from "../ResourceRoute";
 
 interface StateParams {
   data: FieldData[];

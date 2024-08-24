@@ -4,7 +4,7 @@ import { Button, GetProp, Popconfirm, Table } from "antd";
 import { TableProps } from "antd/es/table";
 import { SorterResult } from "antd/es/table/interface";
 import { useNavigate } from "react-router";
-import { ResourceRouteItemProps } from "./ResourceRoute";
+import { ResourceRouteItemProps } from "../ResourceRoute";
 
 
 export type ColumnsType<T extends object = object> = TableProps<T>['columns'];

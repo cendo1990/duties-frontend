@@ -1,7 +1,7 @@
 import { Component, FC } from "react";
 import { DataProvider } from "../../DataProvider/dataProvider";
 import { Button, Form, FormItemProps, Input } from "antd";
-import { ResourceRouteItemProps } from "./ResourceRoute";
+import { ResourceRouteItemProps } from "../ResourceRoute";
 
 interface DataType {
   id?: number,
