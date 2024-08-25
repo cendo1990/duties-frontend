@@ -48,7 +48,7 @@ const CustomizedForm: FC<CustomizedFormProps> = ({ onChange, onSubmit, onClick, 
       }
     }).catch((error:any)=>{
       console.log("createData error", error, form.getFieldsValue());
-      openNotification({message: `Create Failed, error status: ${error?.response?.status}`}, "error");
+      openNotification({message: `Create Failed, error status: ${error?.response?.status ? error?.response?.status : error?.code}`}, "error");
     })
   }
   

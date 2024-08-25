@@ -194,7 +194,7 @@ class BasicList extends Component<ResourceRouteItemProps, StateParams>
       this.setState({
         loading: false,
       });
-      this.props.openNotification({message: `List failed, error status: ${error?.response?.status}`}, "error");
+      this.props.openNotification({message: `List failed, error status: ${error?.response?.status ? error?.response?.status : error?.code}`}, "error");
     });
   }
 

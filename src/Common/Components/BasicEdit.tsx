@@ -50,7 +50,7 @@ export const CustomizedForm: FC<CustomizedFormProps> = ({ onChange, onSubmit, on
       }
     }).catch((error:any)=>{
       console.log("updateData error", error, form.getFieldsValue());
-      openNotification({message: `Update Failed, error status: ${error?.response?.status}`}, "error");
+      openNotification({message: `Update Failed, error status: ${error?.response?.status ? error?.response?.status : error?.code}`}, "error");
     })
   }
   
@@ -158,7 +158,7 @@ class BasicEdit extends Component<ResourceRouteItemProps, StateParams>{
       }
     }).catch((error)=>{
       console.log(error);
-      this.props.openNotification({message: `Show failed, error status: ${error?.response?.status}`}, "error");
+      this.props.openNotification({message: `Show failed, error status: ${error?.response?.status ? error?.response?.status : error?.code}`}, "error");
     });
   }
 
