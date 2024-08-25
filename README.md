@@ -2,6 +2,18 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Install Node.js
+
+https://nodejs.org/en/download/package-manager
+
+Recommend using node v.20.16.0
+
+## create .env in root directory
+
+```
+REACT_APP_API_URL=<Server Api host>
+```
+
 ## Before run available Scripts, you need
 
 ### `npm install`
